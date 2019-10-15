@@ -17,59 +17,45 @@ import {
 	BooleanField,
 	BooleanInput,
 	Filter,
-	NumberInput,
-	DateField,
-	ArrayInput,
-	SimpleFormIterator,
-	ArrayField,
-	NumberField
+	NumberInput
 } from 'react-admin';
 
-export const ProductList = (props: any) => (
+export const SuppliersList = (props: any) => (
 	<List
 		{...props}
-		title={'Productos'}
+		title={'Proveedores'}
 		style={{ alignItems: 'center', jusifyContent: 'center' }}
 	>
 		<Datagrid>
 			<TextField source='name' />
-			<TextField source='code' />
-			<TextField source='description' />
 			<ReferenceField label='category' source='category_id' reference='categories'>
 				<TextField source='name' />
 			</ReferenceField>
-			<NumberField source='price' />
 			<EditButton />
 		</Datagrid>
 	</List>
 );
 
-export const ProductEdit = (props: any) => (
-	<Edit {...props} title={'Editando Producto'}>
+export const SuppliersEdit = (props: any) => (
+	<Edit {...props} title={'Editando Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<TextInput source='code' />
 			<ReferenceInput label='category' source='category_id' reference='categories'>
-				<SelectInput />
+				<SelectInput optionText='name' />
 			</ReferenceInput>
-			<TextInput fullWidth source='description' />
-			<NumberInput source='price' />
-			<NumberInput source='stock' />
+			<NumberInput fullWidth step={10} max={100} source='discount' />
 		</SimpleForm>
 	</Edit>
 );
 
-export const ProductCreate = (props: any) => (
-	<Create {...props} title={'Nuevo Producto'}>
+export const SuppliersCreate = (props: any) => (
+	<Create {...props} title={'Nuevp Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<TextInput fullWidth source='code' />
-			<NumberInput fullWidth source='price' />
-			<NumberInput fullWidth source='stock' />
 			<ReferenceInput label='category' source='category_id' reference='categories'>
 				<SelectInput optionText='name' />
 			</ReferenceInput>
-			<TextInput fullWidth source='description' />
+			<NumberInput fullWidth step={10} max={100} source='discount' />
 		</SimpleForm>
 	</Create>
 );
