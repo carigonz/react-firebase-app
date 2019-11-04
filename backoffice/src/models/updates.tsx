@@ -16,16 +16,11 @@ import {
 	ShowButton,
 	BooleanField,
 	BooleanInput,
+	NumberField,
 	Filter,
-	NumberInput,
-	DateField,
-	ArrayInput,
-	SimpleFormIterator,
-	ArrayField,
-	NumberField
+	NumberInput
 } from 'react-admin';
-
-export const ProductList = (props: any) => (
+export const UpdateList = (props: any) => (
 	<List
 		{...props}
 		title={'Productos'}
@@ -47,42 +42,27 @@ export const ProductList = (props: any) => (
 	</List>
 );
 
-export const ProductEdit = (props: any) => (
-	<Edit {...props} title={'Editando Producto'}>
+/* export const SuppliersEdit = (props: any) => (
+	<Edit {...props} title={'Editando Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<TextInput source='code' />
-			<ReferenceInput
-				label='categoria'
-				source='category_id'
-				reference='categories'
-			>
-				<SelectInput />
+			<ReferenceInput label='category' source='category_id' reference='categories'>
+				<SelectInput optionText='name' />
 			</ReferenceInput>
-			<TextInput fullWidth source='description' />
-			<ReferenceInput label='proveedor' source='supplier_id' reference='suppliers'>
-				<SelectInput />
-			</ReferenceInput>
-			<NumberInput source='price' />
-			{/* <NumberInput source='stock' /> */}
+			<NumberInput fullWidth step={10} max={100} source='discount' />
 		</SimpleForm>
 	</Edit>
 );
 
-export const ProductCreate = (props: any) => (
-	<Create {...props} title={'Nuevo Producto'}>
+export const SuppliersCreate = (props: any) => (
+	<Create {...props} title={'Nuevp Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<TextInput fullWidth source='code' />
-			<NumberInput fullWidth source='price' />
-			{/* <NumberInput fullWidth source='stock' /> */}
 			<ReferenceInput label='category' source='category_id' reference='categories'>
 				<SelectInput optionText='name' />
 			</ReferenceInput>
-			<ReferenceInput label='supplier' source='supplier_id' reference='suppliers'>
-				<SelectInput source='name' />
-			</ReferenceInput>
-			<TextInput fullWidth source='description' />
+			<NumberInput fullWidth step={10} max={100} source='discount' />
 		</SimpleForm>
 	</Create>
 );
+ */

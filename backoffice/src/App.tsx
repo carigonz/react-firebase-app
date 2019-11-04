@@ -21,6 +21,7 @@ import {
 } from './models/categories';
 import { ProductCreate, ProductEdit, ProductList } from './models/product';
 import { SellsList } from './models/sells';
+import { UpdateList } from './models/updates';
 
 const firebaseConfig = require('./credencials.json');
 
@@ -43,6 +44,10 @@ const trackedResources = [
 	},
 	{
 		name: 'sells',
+		isPublic: false
+	},
+	{
+		name: 'updates',
 		isPublic: false
 	}
 ];
@@ -108,7 +113,8 @@ const App: React.FC = () => {
 				edit={CategoriesEdit}
 				create={CategoriesCreate}
 			/>
-			<Resource name='sells' list={SellsList} />
+			<Resource name='updates' list={ProductList} />
+			{/* <Resource name='sells' list={SellsList} /> */}
 		</Admin>
 	);
 };

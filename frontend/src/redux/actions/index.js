@@ -49,10 +49,10 @@ export const getProducts = () => {
 			let payload = [];
 			response.forEach(e => {
 				payload.push({ ...e.data(), id: e.id });
-			});
+			}); /* 
 			console.log('====================================');
 			console.log('SNAPSHOT');
-			console.log('====================================');
+			console.log('===================================='); */
 			dispatch({ type: 'FETCHED_PRODUCTS', payload });
 		});
 	};

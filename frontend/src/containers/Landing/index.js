@@ -6,7 +6,6 @@ import {
 	getUsers,
 	getCategories,
 	getProducts,
-	buyProduct,
 	getSuppliers
 } from '../../redux/actions';
 import {
@@ -17,8 +16,8 @@ import {
 	Chip
 } from '@material-ui/core';
 
-import ProductCard from '../../components/ProductCard';
 import ListWindow from '../../components/ListWindow';
+import { log } from 'util';
 
 class Home extends Component {
 	state = {
@@ -34,12 +33,12 @@ class Home extends Component {
 
 	render() {
 		const { status, products, suppliers, categories, dispatch } = this.props;
-		console.log('====================================');
-		console.log(this.props);
-		console.log('====================================');
-		console.log('==================asds==================');
-		console.log(this.state.filters);
-		console.log('====================================');
+		// console.log('====================================');
+		// console.log(this.props);
+		// console.log('====================================');
+		// console.log('==================asds==================');
+		// console.log(this.state.filters);
+		// console.log('====================================');
 		return (
 			<Container maxWidth='lg'>
 				<input
@@ -52,9 +51,6 @@ class Home extends Component {
 					categories.map(item => {
 						let enabled = this.state.filters.indexOf(item.id) !== -1;
 						let filters = this.state.filters.filter(i => i !== item.id);
-						console.log('====================================');
-						console.log(enabled);
-						console.log('====================================');
 						return (
 							<Chip
 								key={item.id}
@@ -68,58 +64,53 @@ class Home extends Component {
 							/>
 						);
 					})}
-				<div className='list'>
-					{status === 'FETCHING' && <CircularProgress />}
-					{status !== 'FETCHING' &&
-						products.map(product => {
-							if (
-								this.state.search.length > 0 &&
-								product.name.toLowerCase().search(this.state.search) === -1
-							) {
-								return null;
-							}
-							if (
-								this.state.filters.length > 0 &&
-								!this.state.filters.includes(product.categories_id)
-							) {
-								return null;
-							}
-							return (
-								<ProductCard
-									key={product.id}
-									{...product}
-									action={() => dispatch(buyProduct(product))}
-									image={product.pictures ? product.pictures[0].src : null}
-								/>
-							);
-						})}
-				</div>
 
 				<div className='table'>
 					{status === 'FETCHING' && <CircularProgress />}
-					{status !== 'FETCHING' &&
-						products.map(product => {
-							if (
-								this.state.search.length > 0 &&
-								product.name.toLowerCase().search(this.state.search) === -1
-							) {
-								return null;
-							}
-							if (
-								this.state.filters.length > 0 &&
-								!this.state.filters.includes(product.categories_id)
-							) {
-								return null;
-							}
-						}) && (
-							<ListWindow
-								suppliers={suppliers}
-								search={this.state.search}
-								status={status}
-								products={products}
-								filters={this.state.filters}
-							/>
-						)}
+					{status !== 'FETCHING' && products && (
+						<ListWindow
+							suppliers={suppliers}
+							search={this.state.search}
+							status={status}
+							products={products
+								.map(product => {
+									let timestamp = '';
+									if (
+										this.state.search.length > 0 &&
+										product.name.toLowerCase().search(this.state.search) === -1
+									) {
+										return null;
+									}
+									if (
+										this.state.filters.length > 0 &&
+										!this.state.filters.includes(product.category_id)
+									) {
+										return null;
+									}
+									timestamp = product.updatedAt.toDate();
+
+									let day = timestamp.getDate();
+									let month = timestamp.getMonth() + 1;
+									let year = timestamp.getFullYear();
+
+									product.date = `${day}/${month}/${year}`;
+									//console.log('====================================');
+									console.log(`${day}/${month}/${year}`);
+									console.log(product);
+
+									// let supplier = Array.from(suppliers).filter(
+									// 	supplier => supplier.id === product.supplier_id
+									// );
+									// console.log(supplier.id);
+									// console.log(product.supplier_id);
+									// product.supplier_id = supplier.name;
+
+									return product;
+								})
+								.filter(product => product !== null)}
+							filters={this.state.filters}
+						/>
+					)}
 				</div>
 			</Container>
 		);

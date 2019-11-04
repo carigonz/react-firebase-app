@@ -6,33 +6,23 @@ import Paper from '@material-ui/core/Paper';
 import './styles.css';
 
 export default function ListWindow({ ...props }) {
-	console.log(props);
+	//console.log('=======props de listWindow========');
+	//console.log(props);
 	// rows
 	let productsShown = props.products.slice();
-	console.log(props.status);
+	//console.log(props.status);
 
-	//if (props.status !== 'FETCHING') {
 	productsShown.map(prod => {
-		//prod.updatedAt = new Date();
+		//prod.updatedAt = new Date(prod.updatedAt);
 		delete prod.pictures;
 		delete prod.createdAt;
-		delete prod.updatedAt;
+
+		const { name, description, } = prod; 
+
+
+		//prod.updatedAt.toDate();
+		return prod;
 	});
-	// 	if (
-	// 		props.search.length > 0 &&
-	// 		prod.name.toLowerCase().search(props.search) === -1
-	// 	) {
-	// 		return null;
-	// 	}
-	// 	if (
-	// 		props.filters.length > 0 &&
-	// 		!props.filters.includes(prod.categories_id)
-	// 	) {
-	// 		return null;
-	// 	}
-	// });
-	//}
-	console.log(productsShown);
 
 	//search
 
@@ -80,6 +70,7 @@ export default function ListWindow({ ...props }) {
 
 	props.suppliers.map(supplier => {
 		suppliersArray.push({ width: 160, label: supplier.name, key: supplier.id });
+		return supplier;
 	});
 
 	const getColumnNames = props.products;
@@ -101,16 +92,17 @@ export default function ListWindow({ ...props }) {
 				dataKey: prop
 			});
 		}
-		console.log(prop);
+		//console.log(prop);
 	}
-	console.log(columns);
+	//console.log(columns);
 
-	console.log(productsShown);
+	//console.log(productsShown);
 	let columnsShown = [];
 	columnsShown = columns
 		.filter(column => column.label !== 'pictures')
-		.filter(column => column.label !== 'createdAt');
-	console.log(columnsShown);
+		.filter(column => column.label !== 'createdAt')
+		.filter(column => column.label !== 'updatedAt');
+	//console.log(columnsShown);
 
 	return (
 		<Paper style={{ height: 400, width: '100%' }}>

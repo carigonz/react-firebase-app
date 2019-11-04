@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "ferremex-dev"
+    "default": "ferremax-dev",
+    "ferremax": "ferremax-dev"
   }
 }
