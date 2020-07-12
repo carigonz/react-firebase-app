@@ -5,19 +5,13 @@ import {
 	List,
 	SimpleForm,
 	TextInput,
-	LongTextInput,
-	required,
 	SelectInput,
 	ReferenceInput,
 	Datagrid,
 	TextField,
 	ReferenceField,
 	EditButton,
-	ShowButton,
-	BooleanField,
-	BooleanInput,
-	Filter,
-	NumberInput
+	NumberInput,
 } from 'react-admin';
 
 export const SuppliersList = (props: any) => (
@@ -28,7 +22,11 @@ export const SuppliersList = (props: any) => (
 	>
 		<Datagrid>
 			<TextField source='name' />
-			<ReferenceField label='category' source='category_id' reference='categories'>
+			<ReferenceField
+				label='category'
+				source='category_id'
+				reference='categories'
+			>
 				<TextField source='name' />
 			</ReferenceField>
 			<EditButton />
@@ -40,7 +38,11 @@ export const SuppliersEdit = (props: any) => (
 	<Edit {...props} title={'Editando Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<ReferenceInput label='category' source='category_id' reference='categories'>
+			<ReferenceInput
+				label='category'
+				source='category_id'
+				reference='categories'
+			>
 				<SelectInput optionText='name' />
 			</ReferenceInput>
 			<NumberInput fullWidth step={10} max={100} source='discount' />
@@ -52,7 +54,11 @@ export const SuppliersCreate = (props: any) => (
 	<Create {...props} title={'Nuevp Proveedor'}>
 		<SimpleForm>
 			<TextInput fullWidth source='name' />
-			<ReferenceInput label='category' source='category_id' reference='categories'>
+			<ReferenceInput
+				label='category'
+				source='category_id'
+				reference='categories'
+			>
 				<SelectInput optionText='name' />
 			</ReferenceInput>
 			<NumberInput fullWidth step={10} max={100} source='discount' />

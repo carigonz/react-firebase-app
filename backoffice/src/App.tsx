@@ -5,56 +5,55 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import {
 	RestProvider,
 	AuthProvider,
-	base64Uploader
+	base64Uploader,
 } from './firestoneProvider';
 
 import { UsersList, UsersCreate, UsersEdit } from './models/users';
 import {
 	SuppliersList,
 	SuppliersCreate,
-	SuppliersEdit
+	SuppliersEdit,
 } from './models/suppliers';
 import {
 	CategoriesCreate,
 	CategoriesEdit,
-	CategoriesList
+	CategoriesList,
 } from './models/categories';
-import { ProductCreate, ProductEdit, ProductList } from './models/product';
-import { SellsList } from './models/sells';
-import { UpdateList } from './models/updates';
+import { ProductEdit, ProductList } from './models/products-models/product';
+import ProductCreate from './models/products-models/product-create.component';
 
 const firebaseConfig = require('./credencials.json');
 
 const trackedResources = [
 	{
 		name: 'users',
-		isPublic: false
+		isPublic: false,
 	},
 	{
 		name: 'suppliers',
-		isPublic: false
+		isPublic: false,
 	},
 	{
 		name: 'categories',
-		isPublic: false
+		isPublic: false,
 	},
 	{
 		name: 'products',
-		isPublic: false
+		isPublic: false,
 	},
 	{
 		name: 'sells',
-		isPublic: false
+		isPublic: false,
 	},
 	{
 		name: 'updates',
-		isPublic: false
-	}
+		isPublic: false,
+	},
 ];
 
 const authConfig = {
 	userProfilePath: '/users/',
-	userAdminProp: 'isAdmin'
+	userAdminProp: 'isAdmin',
 };
 
 const dataProvider = base64Uploader(
@@ -68,15 +67,15 @@ const theme = createMuiTheme({
 			light: '#b0bec5',
 			main: '#607d8b',
 			dark: '#263238',
-			contrastText: '#FFF'
+			contrastText: '#FFF',
 		},
 		secondary: {
 			light: '#03a9f4',
 			main: '#0288d1',
 			dark: '#333',
-			contrastText: '#fff'
-		}
-	}
+			contrastText: '#fff',
+		},
+	},
 });
 
 const App: React.FC = () => {
@@ -113,7 +112,7 @@ const App: React.FC = () => {
 				edit={CategoriesEdit}
 				create={CategoriesCreate}
 			/>
-			<Resource name='updates' list={ProductList} />
+			{/* <Resource name='updates' list={ProductList} /> */}
 			{/* <Resource name='sells' list={SellsList} /> */}
 		</Admin>
 	);

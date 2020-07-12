@@ -5,18 +5,9 @@ import {
 	List,
 	SimpleForm,
 	TextInput,
-	LongTextInput,
-	required,
-	SelectInput,
-	ReferenceInput,
 	Datagrid,
 	TextField,
-	ReferenceField,
 	EditButton,
-	ShowButton,
-	BooleanField,
-	BooleanInput,
-	Filter
 } from 'react-admin';
 
 export const CategoriesList = (props: any) => (

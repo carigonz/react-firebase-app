@@ -1,10 +1,10 @@
 {
-  "apiKey": "AIzaSyAIRAF-WLitrLhoMRs9oicAad3XZgtalMA",
-  "authDomain": "ferremax-dev.firebaseapp.com",
-  "databaseURL": "https://ferremax-dev.firebaseio.com",
-  "projectId": "ferremax-dev",
-  "storageBucket": "",
-  "messagingSenderId": "618336263660",
-  "appId": "1:618336263660:web:4c5a65a36871cd773af4c9",
-  "measurementId": "G-2DM6J1K5N1"
+	"apiKey": "AIzaSyBBEOB44FT3whFHJn6gQ5HiFnFo_PHI3n8",
+	"authDomain": "ferreart-65610.firebaseapp.com",
+	"databaseURL": "https://ferreart-65610.firebaseio.com",
+	"projectId": "ferreart-65610",
+	"storageBucket": "ferreart-65610.appspot.com",
+	"messagingSenderId": "692769928084",
+	"appId": "1:692769928084:web:1b2ee343c384e15cb85581",
+	"measurementId": "G-KC1995C5HX"
 }
