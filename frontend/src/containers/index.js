@@ -7,9 +7,6 @@ import About from './About';
 import Privacity from './Privacity';
 import TermsConditions from './Terms&Conditions';
 
-
-
-
 export {
     Landing, 
     Eventos,
