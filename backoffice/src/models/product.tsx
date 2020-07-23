@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+	Create,
 	Edit,
 	List,
 	SimpleForm,
@@ -68,4 +69,34 @@ export const ProductEdit = (props: any) => (
 			{/* <NumberInput source='stock' /> */}
 		</SimpleForm>
 	</Edit>
+);
+
+export const ProductCreate = (props: any) => (
+	<Create
+		{...props}
+		title={'Nuevo Producto'}
+		//actions={<PostEditActions />}
+	>
+		<SimpleForm>
+			<TextInput fullWidth source='name' />
+			<TextInput fullWidth source='code' />
+			<NumberInput fullWidth source='price' />
+			{/* <NumberInput fullWidth source='stock' /> */}
+			<ReferenceInput
+				label='category'
+				source='category_id'
+				reference='categories'
+			>
+				<SelectInput optionText='name' />
+			</ReferenceInput>
+			<ReferenceInput
+				label='supplier'
+				source='supplier_id'
+				reference='suppliers'
+			>
+				<SelectInput source='name' />
+			</ReferenceInput>
+			<TextInput fullWidth source='description' />
+		</SimpleForm>
+	</Create>
 );

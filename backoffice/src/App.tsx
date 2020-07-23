@@ -1,12 +1,18 @@
 import React from 'react';
-import { Admin, Resource } from 'react-admin';
-import { createMuiTheme } from '@material-ui/core/styles';
-
 import {
 	RestProvider,
 	AuthProvider,
 	base64Uploader,
 } from './firestoneProvider';
+
+import { Admin, Resource } from 'react-admin';
+import { createMuiTheme } from '@material-ui/core/styles';
+import UserIcon from '@material-ui/icons/People';
+import BusinessIcon from '@material-ui/icons/BusinessCenter';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
+import CategoryIcon from '@material-ui/icons/Category';
+import CatalogImporter from './models/catalogs/catalog-importer-component';
+import BackupIcon from '@material-ui/icons/Backup';
 
 import { UsersList, UsersCreate, UsersEdit } from './models/users';
 import {
@@ -19,8 +25,8 @@ import {
 	CategoriesEdit,
 	CategoriesList,
 } from './models/categories';
-import { ProductEdit, ProductList } from './models/products-models/product';
-import ProductCreate from './models/products-models/product-create.component';
+import { CatalogsList } from './models/catalogs/catalogs';
+import { ProductEdit, ProductList, ProductCreate } from './models/product';
 
 const firebaseConfig = require('./credencials.json');
 
@@ -42,7 +48,7 @@ const trackedResources = [
 		isPublic: false,
 	},
 	{
-		name: 'sells',
+		name: 'catalogs',
 		isPublic: false,
 	},
 	{
@@ -91,6 +97,7 @@ const App: React.FC = () => {
 				list={UsersList}
 				edit={UsersEdit}
 				create={UsersCreate}
+				icon={UserIcon}
 			/>
 
 			<Resource
@@ -98,6 +105,7 @@ const App: React.FC = () => {
 				list={SuppliersList}
 				edit={SuppliersEdit}
 				create={SuppliersCreate}
+				icon={BusinessIcon}
 			/>
 
 			<Resource
@@ -105,12 +113,20 @@ const App: React.FC = () => {
 				list={ProductList}
 				edit={ProductEdit}
 				create={ProductCreate}
+				icon={ImportExportIcon}
 			/>
 			<Resource
 				name='categories'
 				list={CategoriesList}
 				edit={CategoriesEdit}
 				create={CategoriesCreate}
+				icon={CategoryIcon}
+			/>
+			<Resource
+				name='Listas de Precio'
+				list={CatalogsList}
+				create={CatalogImporter}
+				icon={BackupIcon}
 			/>
 			{/* <Resource name='updates' list={ProductList} /> */}
 			{/* <Resource name='sells' list={SellsList} /> */}

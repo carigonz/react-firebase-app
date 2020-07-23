@@ -148,7 +148,7 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 				return result;
 			case UPDATE:
 			case CREATE:
-				// console.log('UPDATE/CREATE');
+				console.log('UPDATE/CREATE');
 				let itemId = getItemID(
 					params,
 					type,
