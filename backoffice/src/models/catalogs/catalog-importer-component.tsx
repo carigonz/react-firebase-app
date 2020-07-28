@@ -16,8 +16,8 @@ export default class CatalogImporter extends Component<IProps, IState> {
 		super(props);
 		this.state = {
 			file: null,
-			supplier_id: '',
 			supplier: {
+				id: '',
 				name: '',
 			},
 		};
@@ -27,8 +27,8 @@ export default class CatalogImporter extends Component<IProps, IState> {
 		const { value } = event.target;
 		if (!this.state.file) {
 			this.setState(
-				{ supplier_id: value, file: null, supplier: { name: '' } },
-				() => console.log('state: ', this.state)
+				{ file: null, supplier: { id: value, name: '' } }
+				//() => console.log('state: ', this.state)
 			);
 		} else if (this.state.file) {
 			const ref = firebase
@@ -46,24 +46,27 @@ export default class CatalogImporter extends Component<IProps, IState> {
 				}
 			}
 			this.setState(
-				{ supplier_id: value, file: null, supplier: { name: '' } },
-				() => console.log('state: ', this.state)
+				{ file: null, supplier: { id: value, name: '' } }
+				//() => console.log('state: ', this.state)
 			);
 		}
 	};
 
 	handleUploadFile = (event: File | null) => {
-		console.log(event);
+		//console.log(event);
 		if (event && !this.state.file) {
 			this.setState({ file: event });
 			firebase
 				.firestore()
 				.collection('suppliers')
-				.doc(this.state.supplier_id)
+				.doc(this.state.supplier.id)
 				.get()
 				.then((supplier) => {
 					this.setState({
-						supplier: { name: supplier.get('name') },
+						supplier: {
+							id: this.state.supplier.id,
+							name: supplier.get('name'),
+						},
 					});
 					const newRef = firebase
 						.storage()
@@ -169,8 +172,8 @@ interface IProps {
 
 interface IState {
 	file: File | null;
-	supplier_id: string;
 	supplier: {
+		id: string;
 		name: string;
 	};
 }
