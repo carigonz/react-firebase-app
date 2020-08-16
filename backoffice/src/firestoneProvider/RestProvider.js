@@ -58,9 +58,11 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 		? options.firebaseSaveFilter
 		: (data) => data;
 	// const firebaseGetFilter = options.firebaseGetFilter ? options.firebaseGetFilter : data => data;
-
+	// console.log(trackedResources);
 	// Sanitize Resources
 	trackedResources.forEach((resource, index) => {
+		// console.log(`index: ${index} - resource: ${resource}`);
+
 		if (typeof resource === 'string') {
 			resource = {
 				name: resource,
@@ -79,6 +81,10 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 		resourcesData[name] = {};
 	});
 
+	// console.log(trackedResources);
+	// console.log(resourcesUploadFields);
+	// console.log(resourcesPaths);
+	// console.log(resourcesData);
 	/**
 	 * @param {string} type Request type, e.g GET_LIST
 	 * @param {string} resourceName Resource name, e.g. "posts"
@@ -148,6 +154,7 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 				return result;
 			case UPDATE:
 			case CREATE:
+				console.log('======= ENTRE ACA O NO LPM============');
 				console.log('UPDATE/CREATE');
 				let itemId = getItemID(
 					params,
@@ -155,6 +162,16 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 					resourceName,
 					resourcesPaths[resourceName],
 					resourcesData[resourceName]
+				);
+				console.log(params);
+				console.log(type);
+				console.log(resourceName);
+				console.log(resourcesPaths[resourceName]);
+				console.log(resourcesData[resourceName]);
+				console.log('itemId from getItemId: ', itemId);
+				console.log(
+					'resourcesUploadFields',
+					resourcesUploadFields[resourceName]
 				);
 				const uploads = resourcesUploadFields[resourceName]
 					? resourcesUploadFields[resourceName].map((field) =>
@@ -167,6 +184,7 @@ const RestProvider = (firebaseConfig = {}, options = {}) => {
 							)
 					  )
 					: [];
+				console.log('uploads :', uploads);
 				const currentData = resourcesData[resourceName][itemId] || {};
 				const uploadResults = await Promise.all(uploads);
 

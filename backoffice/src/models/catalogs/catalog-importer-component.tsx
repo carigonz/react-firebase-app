@@ -8,10 +8,9 @@ import {
 	SelectInput,
 	required,
 	FormDataConsumer,
-	LinearProgress,
+	BooleanInput,
 } from 'react-admin';
 import firebase from 'firebase/app';
-import readXlsxFile from 'read-excel-file';
 
 export default class CatalogImporter extends Component<IProps, IState> {
 	constructor(props: IProps) {
@@ -21,130 +20,51 @@ export default class CatalogImporter extends Component<IProps, IState> {
 			supplier: {
 				id: '',
 				name: '',
+				discount: 0,
+				category_id: '',
+				updatedAt: '',
 			},
-			products: {},
-			loading: false,
 		};
 	}
 
 	handleChange = (event: any) => {
 		const { value } = event.target;
 		if (!this.state.file) {
-			this.setState(
-				{ file: null, supplier: { id: value, name: '' } }
-				//() => console.log('state: ', this.state)
-			);
-		} else if (this.state.file) {
-			const ref = firebase
-				.storage()
-				.ref(
-					'catalogs/' + this.state.supplier.name + '/' + this.state.file.name
-				);
-			if (ref) {
-				// console.log(ref);
-				try {
-					ref.delete();
-					// console.log('borrado');
-				} catch (error) {
-					console.error(error);
-				}
-			}
-			this.setState({ file: null, supplier: { id: value, name: '' } });
-		}
-	};
-
-	readFile = (file: File) => {
-		return new Promise((resolve) => {
-			resolve(readXlsxFile(file, 'utf8'));
-		});
-	};
-
-	async resolveFileReading(file: File) {
-		console.log('calling');
-		const result = await this.readFile(file);
-		console.log(result);
-		if (result instanceof Object) {
-			this.setState({ products: result, loading: false });
-		} else {
-			console.error('pasaron cosas');
-		}
-	}
-
-	handleUploadFile = (event: File | null) => {
-		this.setState({ loading: true });
-
-		if (event && !this.state.file) {
-			this.setState({ file: event });
 			firebase
 				.firestore()
 				.collection('suppliers')
-				.doc(this.state.supplier.id)
+				.doc(value)
 				.get()
 				.then((supplier) => {
-					this.setState({
-						supplier: {
-							id: this.state.supplier.id,
-							name: supplier.get('name'),
-						},
-					});
-					const newRef = firebase
-						.storage()
-						.ref('catalogs/' + this.state.supplier.name + '/' + event.name);
-					try {
-						newRef.put(event);
-						this.resolveFileReading(event);
-					} catch (error) {
-						console.error(error);
+					if (supplier) {
+						this.setState(
+							{
+								supplier: {
+									id: value,
+									name: supplier.get('name'),
+									discount: supplier.get('discount'),
+									category_id: supplier.get('category_id'),
+									updatedAt: supplier.get('updatedAt'),
+								},
+							},
+							() => console.log(this.state)
+						);
 					}
 				});
-		} else if (event && this.state.file) {
-			const currentRef = firebase
-				.storage()
-				.ref(
-					'catalogs/' + this.state.supplier.name + '/' + this.state.file.name
-				);
-			if (currentRef) {
-				try {
-					currentRef.delete();
-					// console.log('borrado');
-				} catch (error) {
-					console.error(error);
-				}
-			}
-			const newRef = firebase
-				.storage()
-				.ref('catalogs/' + this.state.supplier.name + '/' + event.name);
-			this.setState({ file: event });
-			try {
-				newRef.put(event);
-				this.resolveFileReading(event);
-				console.log('creado');
-			} catch (error) {
-				console.error(error);
-			}
-		} else if (!event && this.state.file) {
-			const ref = firebase
-				.storage()
-				.ref(
-					'catalogs/' + this.state.supplier.name + '/' + this.state.file.name
-				);
-			if (ref) {
-				//console.log(ref);
-				try {
-					ref.delete();
-					// console.log('borrado');
-				} catch (error) {
-					console.error(error);
-				}
-			}
-			this.setState({ file: null, loading: false, products: {} });
 		}
 	};
 
 	render() {
 		return (
 			<div>
-				<Create {...this.props} title={'Cargar nueva Lista'}>
+				<Create
+					{...this.props}
+					title={'Cargar nueva Lista'}
+					transform={(data: any) => ({
+						...data,
+						supplier: this.state.supplier,
+					})}
+				>
 					<SimpleForm>
 						<ReferenceInput
 							label='Proveedor'
@@ -158,6 +78,7 @@ export default class CatalogImporter extends Component<IProps, IState> {
 								disabled={this.state.file ? true : null}
 							/>
 						</ReferenceInput>
+						<BooleanInput label='Lista con iva incluido?' source='iva' />
 						<FormDataConsumer>
 							{({ formData, ...rest }: any) => {
 								if (!formData.supplier_id) return null;
@@ -173,8 +94,6 @@ export default class CatalogImporter extends Component<IProps, IState> {
 											</p>
 										}
 										validate={[required()]}
-										onChange={this.handleUploadFile}
-										required
 									>
 										<FileField source='src' title='title' />
 									</FileInput>
@@ -183,7 +102,6 @@ export default class CatalogImporter extends Component<IProps, IState> {
 						</FormDataConsumer>
 					</SimpleForm>
 				</Create>
-				{this.state.loading ? <LinearProgress /> : null}
 			</div>
 		);
 	}
@@ -198,7 +116,8 @@ interface IState {
 	supplier: {
 		id: string;
 		name: string;
+		discount: number;
+		category_id: string;
+		updatedAt: string;
 	};
-	products: {};
-	loading: boolean;
 }

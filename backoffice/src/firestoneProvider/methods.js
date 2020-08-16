@@ -66,8 +66,16 @@ const upload = async (
 	resourcePath
 ) => {
 	console.log('estoy en upload');
+	console.log('submitedData: ', submitedData);
+	console.log('estoy en upload');
+
 	const file = submitedData[fieldName] && submitedData[fieldName][0];
 	const rawFile = file.rawFile;
+
+	const metadata = {
+		contentType:
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+	};
 
 	const result = {};
 	if (file && rawFile && rawFile.name) {
@@ -75,9 +83,11 @@ const upload = async (
 			.storage()
 			.ref()
 			.child(`${resourcePath}/${id}/${fieldName}`);
-		const snapshot = await ref.put(rawFile);
+		console.log(ref);
+		const snapshot = await ref.put(rawFile, metadata);
 		result[fieldName] = [{}];
 		result[fieldName][0].uploadedAt = new Date();
+		console.log(result);
 		result[fieldName][0].src =
 			snapshot.downloadURL.split('?').shift() + '?alt=media';
 		result[fieldName][0].type = rawFile.type;
@@ -106,15 +116,15 @@ const save = async (
 	isNew,
 	timestampFieldNames
 ) => {
-	console.log('id: ', id);
-	console.log('data: ', data);
-	console.log('previous: ', previous);
-	console.log('resourceName: ', resourceName);
-	console.log('resourcePath: ', resourcePath);
+	// console.log('id: ', id);
+	// console.log('data: ', data);
+	// console.log('previous: ', previous);
+	// console.log('resourceName: ', resourceName);
+	// console.log('resourcePath: ', resourcePath);
 	console.log('uploadResults: ', uploadResults);
-	console.log('firebaseSaveFilter: ', firebaseSaveFilter);
-	console.log('isNew: ', isNew);
-	console.log('timestampFieldNames: ', timestampFieldNames);
+	// console.log('firebaseSaveFilter: ', firebaseSaveFilter);
+	// console.log('isNew: ', isNew);
+	// console.log('timestampFieldNames: ', timestampFieldNames);
 	if (uploadResults) {
 		uploadResults.map((uploadResult) =>
 			uploadResult ? Object.assign(data, uploadResult) : false
@@ -142,20 +152,9 @@ const save = async (
 
 	console.log(id);
 
-	// if (data.file) {
-	//   await firebase
-	//     .storage()
-	//     //.doc(id ? `${resourcePath}/${id}` : resourcePath)
-	//     .doc(id ? `catalogs/${id}` : resourcePath)
-	//     .set(firebaseSaveFilter(data));
-	//   return {
-	//     data: {
-	//       ...data,
-	//       id,
-	//     },
-	//   };
-
-	// }
+	if (data.file) {
+		//do stuf ?
+	}
 
 	await firebase
 		.firestore()
@@ -196,6 +195,12 @@ const delMany = async (ids, resourceName, previousData) => {
 };
 
 const getItemID = (params, type, resourceName, resourcePath, resourceData) => {
+	// console.log('params: ', params);
+	// console.log('type: ', type);
+	// console.log('resourceName: ', resourceName);
+	// console.log('resourcePath: ', resourcePath);
+	// console.log('resourceData: ', resourceData);
+
 	let itemId = params.data.id || params.id || params.data.key || params.key;
 	if (!itemId) {
 		itemId = firebase.firestore().collection(resourcePath).doc().id;

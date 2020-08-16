@@ -3,6 +3,7 @@ import {
 	RestProvider,
 	AuthProvider,
 	base64Uploader,
+	fileUploader,
 } from './firestoneProvider';
 
 import { Admin, Resource } from 'react-admin';
@@ -25,7 +26,7 @@ import {
 	CategoriesEdit,
 	CategoriesList,
 } from './models/categories';
-import { CatalogsList } from './models/catalogs/catalogs';
+import { CatalogsList, CatalogsEdit } from './models/catalogs/catalogs';
 import { ProductEdit, ProductList, ProductCreate } from './models/product';
 
 const firebaseConfig = require('./credencials.json');
@@ -62,9 +63,12 @@ const authConfig = {
 	userAdminProp: 'isAdmin',
 };
 
-const dataProvider = base64Uploader(
+// es necesario declarar el data provider desde aca  PORRRRKE ?
+const dataProvider = fileUploader(
 	RestProvider(firebaseConfig, { trackedResources })
 );
+// console.log(firebaseConfig);
+// console.log(trackedResources);
 
 const theme = createMuiTheme({
 	palette: {
@@ -98,6 +102,7 @@ const App: React.FC = () => {
 				edit={UsersEdit}
 				create={UsersCreate}
 				icon={UserIcon}
+				options={{ label: 'Usuarios' }}
 			/>
 
 			<Resource
@@ -106,6 +111,7 @@ const App: React.FC = () => {
 				edit={SuppliersEdit}
 				create={SuppliersCreate}
 				icon={BusinessIcon}
+				options={{ label: 'Proveedores' }}
 			/>
 
 			<Resource
@@ -114,6 +120,7 @@ const App: React.FC = () => {
 				edit={ProductEdit}
 				create={ProductCreate}
 				icon={ImportExportIcon}
+				options={{ label: 'Productos' }}
 			/>
 			<Resource
 				name='categories'
@@ -121,12 +128,15 @@ const App: React.FC = () => {
 				edit={CategoriesEdit}
 				create={CategoriesCreate}
 				icon={CategoryIcon}
+				options={{ label: 'Categorías' }}
 			/>
 			<Resource
-				name='Listas de Precio'
+				name='catalogs'
 				list={CatalogsList}
 				create={CatalogImporter}
+				edit={CatalogsEdit}
 				icon={BackupIcon}
+				options={{ label: 'Listas de Precio' }}
 			/>
 			{/* <Resource name='updates' list={ProductList} /> */}
 			{/* <Resource name='sells' list={SellsList} /> */}
