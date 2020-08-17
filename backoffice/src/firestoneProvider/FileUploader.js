@@ -101,6 +101,14 @@ const addUploadFeature = (requestHandler) => (type, resource, params) => {
 				});
 		}
 
+		if (
+			type === 'UPDATE' &&
+			resource === 'catalogs' &&
+			params.data.file.rawFile instanceof File
+		) {
+			console.log('all data: ', params.data);
+			console.log('toy aquiiiiiiiiiiiiiiiiiiiiiiiiiii');
+		}
 		// notice that following condition can be true only when `<ImageInput source="pictures" />` component has parameter `multiple={true}`
 		// if parameter `multiple` is false, then data.pictures is not an array, but single object
 		if (params.data.pictures && params.data.pictures.length) {
