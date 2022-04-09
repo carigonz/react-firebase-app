@@ -8,7 +8,7 @@
 		"@types/react": "16.8.23",
 		"@types/react-dom": "16.8.4",
 		"firebase": "^7.16.0",
-		"moment": "^2.27.0",
+		"moment": "^2.29.2",
 		"react": "^16.13.1",
 		"react-admin": "^3.7.1",
 		"react-dom": "^16.13.1",
